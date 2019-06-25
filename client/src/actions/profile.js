@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, ACCOUNT_DELETED, CLEAR_PROFILE } from './types';
+import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, ACCOUNT_DELETED, CLEAR_PROFILE, GET_PROFILES } from './types';
 
 //GET current user profile
 
 export const getCurrentProfile = () => async dispatch => {
+
+  dispatch({ type: CLEAR_PROFILE });
 
   try {
 
@@ -19,12 +21,55 @@ export const getCurrentProfile = () => async dispatch => {
       type: PROFILE_ERROR,
       payload: {
         msg: err.response.statusText,
-        status: err.response.statusText
+        status: err.response.status
       }
     });
   }
 }
 
+//Get all Profiles
+export const getProfiles = () => async dispatch => {
+  try {
+
+    const res = await axios.get('/api/profiles');
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+}
+
+//Get Profile by Id
+
+export const getProfileById = userId => async dispatch => {
+  try {
+
+    const res = await axios.get(`../api/profile/user/${userId}`);
+    console.log(res);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data
+    });
+
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status
+      }
+    });
+  }
+}
 
 //Create or Update a PROFILE
 
@@ -198,7 +243,8 @@ export const deleteAccount = () =>
    async dispatch => {
 if(window.confirm('Are you sure? This can NOT be undone!')) {
   try {
-    const res= await axios.delete('/api/profiles')
+
+    await axios.delete('/api/profiles')
 
     dispatch({type: CLEAR_PROFILE});
     dispatch({type: ACCOUNT_DELETED});
@@ -211,11 +257,8 @@ if(window.confirm('Are you sure? This can NOT be undone!')) {
       payload: {
         msg: err.response.statusText,
         status: err.response.statusText
-      }
-    });
+        }
+      });
+    }
   }
-}
-
-
-
 }
