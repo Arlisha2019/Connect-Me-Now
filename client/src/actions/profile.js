@@ -6,7 +6,7 @@ import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, ACCOUNT_DELETED, CLEAR_PROF
 
 export const getCurrentProfile = () => async dispatch => {
 
-  dispatch({ type: CLEAR_PROFILE });
+// dispatch({ type: CLEAR_PROFILE });
 
   try {
 
@@ -20,7 +20,7 @@ export const getCurrentProfile = () => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: err.response.statusText,
+        msg: err.response.message,
         status: err.response.status
       }
     });
@@ -29,6 +29,9 @@ export const getCurrentProfile = () => async dispatch => {
 
 //Get all Profiles
 export const getProfiles = () => async dispatch => {
+
+// dispatch({ type: CLEAR_PROFILE });
+
   try {
 
     const res = await axios.get('/api/profiles');
@@ -41,7 +44,7 @@ export const getProfiles = () => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: {
-        msg: err.response.statusText,
+        msg: err.response.message,
         status: err.response.status
       }
     });
@@ -53,8 +56,8 @@ export const getProfiles = () => async dispatch => {
 export const getProfileById = userId => async dispatch => {
   try {
 
-    const res = await axios.get(`../api/profile/user/${userId}`);
-    console.log(res);
+    const res = await axios.get(`/api/profiles/user/${userId}`);
+
     dispatch({
       type: GET_PROFILE,
       payload: res.data
@@ -159,7 +162,7 @@ export const addEducation = (formData, history) => async dispatch => {
       headers: {
         'Content-Type': 'application/json'
       }
-    }
+    };
 
     const res = await axios.put('/api/profiles/education', formData, config);
 
