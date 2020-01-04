@@ -1,4 +1,4 @@
-# :woman_technologist: :globe_with_meridians:	 Connect-Me-Now :globe_with_meridians: :man_technologist:
+# :electric_plug: :woman_technologist: :globe_with_meridians:	 Connect-Me-Now :electric_plug: :globe_with_meridians: :man_technologist:
 
 A Social Network
 
